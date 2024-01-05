@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+  
+    "name": "Getting started example",
+    "description": "This extension allows the user to change the background color of the current page.",
+    "version": "1.0",
+  
+    "icons":{
+        "64": "icon.png"
+    },
+    "background":{
+        /*"scripts": ["background.js"]*/
+    },
+    "content_scripts": [
+      {
+        "matches": ["http://mail.google.com/*", "https://mail.google.com/*"],
+        /*"matches": ["https://stackoverflow.com/*"],*/
+        "js": ["myscript.js"]
+        /*"run_at": "document_end"*/
+      }
+      ]
+  }
