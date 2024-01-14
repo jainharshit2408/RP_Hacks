@@ -1,27 +1,19 @@
 {
-  "manifest_version": 3,
-  "name": "Phishing Detector",
-  "description": "This extension detects phishing sites.",
-  "version": "1.0",
+  "name": "PhishTor",
+  "version": "1.0.01",
+  "description": "A phishing detector plugin",
+  "permissions": ["activeTab","declarativeContent", "storage", "webNavigation"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "js/bg-loader.js"
   },
-  "content_scripts": [
+  "action": {
+    "default_popup": "plugin_ui.html"
+  },
+  "content_scripts":[
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": ["jquery-3.1.1.min.js", "content.js"]
+      "matches": ["http://*/*","https://*/*"],
+      "js": ["js/features.js"]
     }
   ],
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "permissions": [
-    "scripting"
-  ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ]
+  "manifest_version": 3
 }
