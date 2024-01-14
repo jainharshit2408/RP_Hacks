@@ -166,14 +166,14 @@ for(var i = 0; i < imgTags.length; i++){
 var totalCount=phishCount+legitCount;
 var outRequest=(phishCount/totalCount)*100;
 //alert(outRequest);
-
-if(outRequest<22){
-    result["Request URL"]="-1";
-}else if(outRequest>=22&&outRequest<61){
-    result["Request URL"]="0";
-}else{
-    result["Request URL"]="1";
-}
+result["Request URL"]="-1";
+// if(outRequest<22){
+//     result["Request URL"]="-1";
+// }else if(outRequest>=22&&outRequest<61){
+//     result["Request URL"]="0";
+// }else{
+//     result["Request URL"]="1";
+// }
 
 //---------------------- 14.  URL of Anchor  ----------------------
 var aTags = document.getElementsByTagName("a");
