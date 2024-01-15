@@ -32,7 +32,7 @@ export const NavBar=() =>
     <Router>
       <Navbar expand="md" className={scrolled ? "scrolled": ""}>
         <Container>
-        <Navbar.Brand href="#home" className="brand">BRAND</Navbar.Brand>
+        <Navbar.Brand href="#home" className="brand"><strong>CYBERGUARD</strong></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" >
               <span className="navbar-toggler-icon"></span>
           </Navbar.Toggle>
@@ -42,8 +42,9 @@ export const NavBar=() =>
               <Nav.Link as = {HashLink} to="#skill" smooth className={activeLink === 'skills' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('skills')}>Skills</Nav.Link> */}
             </Nav>
             <Nav>
-            <Nav.Link as = {HashLink} to="#home" smooth className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')} >Add It To Chrome</Nav.Link>
-            <Nav.Link as = {HashLink} to="#home" smooth className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')} >GUIDLINES</Nav.Link>
+            <Nav.Link as = {HashLink} to="#main" smooth className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')} ><strong>DETECT</strong></Nav.Link>
+            <Nav.Link as = {HashLink} to="#home" smooth className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')} ><strong>EXTENSION</strong></Nav.Link>
+            <a  style={{color:'white', fontWeight:'400', fontSize:'18px'}} href="https://cybercrime.gov.in/webform/crime_onlinesafetytips.aspx"><strong>GUIDELINES</strong></a>
             </Nav>
             {/* <span className="navbar-text">
               <HashLink to='#connect'>
