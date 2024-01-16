@@ -278,7 +278,7 @@ function classify(tabId, result) {
 }
 classify(tabId, result);
  
-
+return predicted_value
 }
 
 
