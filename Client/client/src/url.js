@@ -1,5 +1,6 @@
 import { fetchCLF } from "./fetch";
 import { random_forest,decision_tree } from "./rfc_frontend";
+
 export const url =(url, domain)=>{
 
     var predicted_value = 0
@@ -221,64 +222,59 @@ result["SFH"] = res;
 
 //---------------------- Sending the result  ----------------------
 console.log(result);
+//Setting up aws auth
+const region = "your-aws-region"; // Replace with your AWS region
 
-var legitimatePercents = {};
-var isPhish = {};
-var tabId = 0;
-function fetchLive(callback) {
-  fetch('https://raw.githubusercontent.com/picopalette/phishing-detection-plugin/master/static/classifier.json', { 
-  method: 'GET'
-  })
-  .then(function(response) { 
-    if (!response.ok) { throw response }
-    return response.json(); 
-  })
-  .then(function(data) {
-    sessionStorage.set({cache: data, cacheTime: Date.now()}, function() {
-      callback(data);
+// Generate a request URL
+var ml_api = `https://${endpointName}.${region}.sagemaker.amazonaws.com/endpoint-name/predict`;
+
+// Set up AWS Signature Version 4 headers
+const signedRequest = aws4.sign({
+  host: `${endpointName}.${region}.sagemaker.amazonaws.com`,
+  method: 'POST',
+  url: '/endpoint-name/predict',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Amz-Date': new Date().toISOString(),
+  },
+  body: values,
+  service: 'sagemaker',
+  region: region,
+});
+//---------------------- Trying to send request to sagemaker endpoint   ----------------------
+    const keysArray = Object.values(result);
+    console.log(keysArray);
+    const values = JSON.stringify(keysArray);
+    //const ml_api = "https://runtime.sagemaker.eu-north-1.amazonaws.com/endpoints/Custom-sklearn-endpoint-2024-01-16-13-36-04/invocations";
+    var predicted_value = '';
+
+    const myPromise = new Promise((resolve, reject) => {
+        axios.post(ml_api, values, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            resolve(response.data); // Resolve with the server response
+            console.log(response);
+            predicted_value = response.data;
+        })
+        .catch(error => {
+            reject(error); // Reject with the error if there is one
+        });
     });
-  });
-}
-function classify(tabId, result) {
-  var legitimateCount = 0;
-  var suspiciousCount = 0;
-  var phishingCount = 0;
 
-  for(var key in result) {
-    if(result[key] == "1") phishingCount++;
-    else if(result[key] == "0") suspiciousCount++;
-    else legitimateCount++;
-  }
-  legitimatePercents[tabId] = legitimateCount / (phishingCount+suspiciousCount+legitimateCount) * 100;
-
-  if(result.length != 0) {
-    var X = [];
-    X[0] = [];
-    for(var key in result) {
-        X[0].push(parseInt(result[key]));
-    }
-//    console.log(result);
-//    console.log(X);
-    fetchCLF(function(clf) {
-      var rf = random_forest(clf);
-      y = rf.predict(X);
-//      console.log(y[0]);
-      if(y[0][0]) {
-        isPhish[tabId] = true;
-      } else {
-        isPhish[tabId] = false;
-      }
-
-      if (isPhish[tabId]) {
-        predicted_value= 1
-      }
+    // Using the Promise
+    myPromise
+    .then((result) => {
+        // Handle the successful completion of the asynchronous operation
+        console.log(result);
+    })
+    .catch((error) => {
+        // Handle the error if the asynchronous operation fails
+        console.error(error);
     });
-  }
-
-}
-classify(tabId, result);
- 
-return predicted_value
+    return predicted_value;
 }
 
 
