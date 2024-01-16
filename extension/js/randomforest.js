@@ -1,4 +1,3 @@
-
 let decision_tree = function(root) {
   var predictOne = function(x) {
     var node = root;

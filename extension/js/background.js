@@ -44,12 +44,12 @@ function classify(tabId, result) {
     for(var key in result) {
         X[0].push(parseInt(result[key]));
     }
-    console.log(result);
-    console.log(X);
+//    console.log(result);
+//    console.log(X);
     fetchCLF(function(clf) {
       var rf = random_forest(clf);
       y = rf.predict(X);
-      console.log(y[0]);
+//      console.log(y[0]);
       if(y[0][0]) {
         isPhish[tabId] = true;
       } else {
@@ -70,6 +70,7 @@ function classify(tabId, result) {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   results[sender.tab.id]=request;
+  console.log(sender.tab);
   classify(sender.tab.id, request);
   sendResponse({received: "result"});
 });
