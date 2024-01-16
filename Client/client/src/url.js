@@ -1,7 +1,5 @@
-import axios from "axios";
-import aws4 from "aws4";
-
-export const url =(url, domain)=>{
+import { SageMakerRuntimeClient, InvokeEndpointAsyncCommand } from "@aws-sdk/client-sagemaker-runtime";
+export const url =async (url, domain)=>{
 
     var result = {};
     var patt = /(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]?[0-9])(\.|$){4}/;
@@ -177,57 +175,5 @@ result["SFH"] = res;
 
 //---------------------- Sending the result  ----------------------
 console.log(result);
-//Setting up aws auth
-const region = "your-aws-region"; // Replace with your AWS region
 
-// Generate a request URL
-var ml_api = `https://${endpointName}.${region}.sagemaker.amazonaws.com/endpoint-name/predict`;
-
-// Set up AWS Signature Version 4 headers
-const signedRequest = aws4.sign({
-  host: `${endpointName}.${region}.sagemaker.amazonaws.com`,
-  method: 'POST',
-  url: '/endpoint-name/predict',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Amz-Date': new Date().toISOString(),
-  },
-  body: values,
-  service: 'sagemaker',
-  region: region,
-});
-//---------------------- Trying to send request to sagemaker endpoint   ----------------------
-    const keysArray = Object.values(result);
-    console.log(keysArray);
-    const values = JSON.stringify(keysArray);
-    //const ml_api = "https://runtime.sagemaker.eu-north-1.amazonaws.com/endpoints/Custom-sklearn-endpoint-2024-01-16-13-36-04/invocations";
-    var predicted_value = '';
-
-    const myPromise = new Promise((resolve, reject) => {
-        axios.post(ml_api, values, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => {
-            resolve(response.data); // Resolve with the server response
-            console.log(response);
-            predicted_value = response.data;
-        })
-        .catch(error => {
-            reject(error); // Reject with the error if there is one
-        });
-    });
-
-    // Using the Promise
-    myPromise
-    .then((result) => {
-        // Handle the successful completion of the asynchronous operation
-        console.log(result);
-    })
-    .catch((error) => {
-        // Handle the error if the asynchronous operation fails
-        console.error(error);
-    });
-    return predicted_value;
 }
