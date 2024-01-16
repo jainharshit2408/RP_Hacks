@@ -1,7 +1,7 @@
 {
-  "name": "PhishTor",
+  "name": "Fraud Detector",
   "version": "1.0.01",
-  "description": "A phishing detector plugin",
+  "description": "A Fraud Prevention plugin",
   "permissions": ["activeTab","declarativeContent", "storage", "webNavigation"],
   "background": {
     "service_worker": "js/bg-loader.js"
