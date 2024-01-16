@@ -20,8 +20,19 @@ chrome.tabs.query({ currentWindow: true, active: true }, function(tabs){
             newFeature.style.backgroundColor=colors[result[key]];
             featureList.appendChild(newFeature);
         }
+        console.log(typeof legitimatePercent);
+        if (legitimatePercent === undefined) {
+            $("#site_score").text("Reload \u27f2").css({
+                "font-size": "35px",
+                "color" : "black"
+            });
+            $(".rounded-circle").css({"background":"yellow"});
+        }        
+        else
+        {
+            $("#site_score").text(parseInt(legitimatePercent)+"%");
+        }
         
-        $("#site_score").text(parseInt(legitimatePercent)+"%");
         if(isPhish) {
             $("#res-circle").css("background", "red");
             $("#site_msg").text("Warning!! This website may be a Fraud");

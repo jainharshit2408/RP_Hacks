@@ -1,5 +1,5 @@
 {
-  "name": "Fraud Detector",
+  "name": "CyberGuard",
   "version": "1.0.01",
   "description": "A Fraud Prevention plugin",
   "permissions": ["activeTab","declarativeContent", "storage", "webNavigation"],
