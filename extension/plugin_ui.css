@@ -43,7 +43,8 @@ h1 {
     font-weight: bold;
     position: relative;
     top: 35px;
-    margin-left: 3px;
+    /* margin-left: 3px;
+    margin-right: 3px; */
     text-align: center;
     font-size: 50px;
 }

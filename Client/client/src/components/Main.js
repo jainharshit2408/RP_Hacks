@@ -4,12 +4,14 @@ import Card from 'react-bootstrap/Card';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
-import CardGroup from 'react-bootstrap/CardGroup';
-import spam from "../Assets/Images/portfolio2.png"
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import sms from '../Assets/Images/sms.png';
 import web from '../Assets/Images/web.png';
+import {url} from '../url';
+import axios from "axios";
+
+
 
 export const Main = () => {
     const [open, setOpen] = useState(false);
@@ -36,9 +38,32 @@ export const Main = () => {
     e.preventDefault(); // Prevents the default form submission behavior
     const url_text = textareaValue2;
     console.log('URL:', url_text);
+    const requestData = JSON.stringify({ url_text });
+    
     handleReset2();
+    var server = 'http://localhost:8080/';
+    var url_domain = ''
+    ;
+    axios.post(server, requestData, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+      })
+        .then(response => {
+            url_domain = response.data.hostname;
+            //console.log(url_domain);
+            const predicted = url(url_text, url_domain);
+            console.log(predicted);
+        })
+        .catch(error => {
+          console.error('Axios error:', error);
+        });
+  
     };  
-      
+    
+    
+
+    // Function to make a GET request and retrieve the hostname using the Fetch API
 
     return (
         <section className="banner" id="main">
