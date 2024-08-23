@@ -110,15 +110,6 @@ function getDataSets(X, y, size) {
   return { XTrain, yTrain, XTest, yTest };
 }
 
-function trainWithNaturalsBayesClassifier(XTrain, yTrain) {
-  const classifier = new natural.BayesClassifier();
-
-  Array(MTrain).fill().forEach((v, i) => classifier.addDocument(XTrain[i], yTrain[i]));
-  classifier.train();
-
-  return classifier;
-}
-
 function init() {
   /* ------------------------ */
   //  Train & Predict with SVM //
@@ -145,16 +136,6 @@ function init() {
   app.post('/', async (req, res) => {
     const { url_text } = req.body;
     console.log('Received URL:', url_text);
-
-    try {
-      const hostname = await getHostname(url_text);
-     // const isSpam = detectSpam(hostname);
-      res.send({ hostname});
-    } catch (error) {
-      console.error('Error:', error.message, url_text);
-      res.status(500).send('Internal Server Error');
-    }
-  });
 
   app.post('/spam', async (req, res) => {
     try {
@@ -183,26 +164,4 @@ function init() {
   });
 }
 
-function detectSpam(sms_text) {
-  const isSpam = SVM.predict(sms_text)[0];
-  return isSpam;
-}
 
-async function getHostname(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Network response was not ok: ' + response.status);
-    }
-
-    const html = await response.text();
-    const parsedUrl = new URL(url);
-    const hostname = parsedUrl.hostname;
-
-    console.log('Hostname:', hostname);
-    return hostname;
-  } catch (error) {
-    console.error('Error in getHostname:', error.message);
-    throw error;
-  }
-}
